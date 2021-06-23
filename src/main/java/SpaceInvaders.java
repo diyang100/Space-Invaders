@@ -25,7 +25,7 @@ public class SpaceInvaders extends Application {
     int score = 0;
     int lives = 3;
 
-    private Scene titleScreen() {
+    private Scene titleScreen(Stage stage, Scene gameScreen) {
         Image title = new Image("images/logo.png", 400, 160, true, true);
         ImageView titleImg = new ImageView(title);
         StackPane imgContainer = new StackPane(titleImg);
@@ -76,14 +76,15 @@ public class SpaceInvaders extends Application {
                     level = 3;
                     text7.setText("Starting level: " + level);
                 }
-                case ENTER -> throw new UnsupportedOperationException("To be implemented");
+                case ENTER -> stage.setScene(gameScreen);
             }
         });
         return titleScreen;
     }
     @Override
     public void start(Stage stage) {
-        Scene titleScreen = titleScreen();
+        Scene gameScreen = new Scene(new Group());
+        Scene titleScreen = titleScreen(stage, gameScreen);
         stage.setScene(titleScreen);
         stage.setResizable(false);
         stage.setTitle("Space Invaders");
