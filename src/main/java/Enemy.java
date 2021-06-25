@@ -38,4 +38,7 @@ public class Enemy {
     public boolean intersects(PlayerBullet bullet) {
         return bullet.getBoundary().intersects(this.getBoundary());
     }
+    public boolean intersects(Player player) {
+        return player.getBoundary().intersects(this.getBoundary());
+    }
 }

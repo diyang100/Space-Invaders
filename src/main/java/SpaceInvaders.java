@@ -107,7 +107,7 @@ public class SpaceInvaders extends Application {
         }
 
         Player player = new Player();
-        player.setPosition(SCREEN_WIDTH/2, SCREEN_HEIGHT-100);
+        player.setPosition(SCREEN_WIDTH/2, SCREEN_HEIGHT-player.height-40);
         gameRoot.getChildren().addAll(player.image);
 
         AnimationTimer timer = new AnimationTimer() {
@@ -255,10 +255,17 @@ public class SpaceInvaders extends Application {
                 enemyLoop:
                 for (ArrayList<Enemy> enemyRow : enemies) {
                     for (Enemy enemy : enemyRow) {
-                        if (!enemy.dead && enemy.image.getY() > SCREEN_HEIGHT-(120 + player.height)) {
-                            this.stop();
-                            stage.setScene(endScreen(stage, titleScreen, "YOU LOSE (enemy reached your ship)", levelLabel));
-                            break enemyLoop;
+                        if (!enemy.dead) {
+                            if (enemy.intersects(player)) {
+                                shipExplosion.play();
+                                this.stop();
+                                stage.setScene(endScreen(stage, titleScreen, "YOU LOSE (enemy hit your ship)", levelLabel));
+                                break enemyLoop;
+                            } else if (enemy.image.getY() >= SCREEN_HEIGHT-player.height-40) {
+                                this.stop();
+                                stage.setScene(endScreen(stage, titleScreen, "YOU LOSE (enemy reached your ship)", levelLabel));
+                                break enemyLoop;
+                            }
                         }
                     }
                 }
